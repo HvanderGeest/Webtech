@@ -17,7 +17,7 @@ import nl.saxion.model.Model;
 /**
  * Servlet implementation class ServletContext
  */
-
+@WebListener
 public class ServletContext  implements ServletContextListener {
 	private static final long serialVersionUID = 1L;
 	
