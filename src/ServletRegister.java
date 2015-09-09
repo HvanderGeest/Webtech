@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Huurder;
+import model.Model;
 import model.User;
+import model.Verhuurder;
 
 /**
  * Servlet implementation class ServletEE
@@ -22,7 +26,7 @@ import model.User;
 @WebServlet("/ServletRegister")
 public class ServletRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private HashMap<String, User> users;
+	private Model m;
 	public static final String REGISTERED_USERS_SESSION = "registered users";
        
     /**
@@ -46,23 +50,26 @@ public class ServletRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute(REGISTERED_USERS_SESSION) == null){
-			session.setAttribute(REGISTERED_USERS_SESSION, new HashMap<String, User>());
-		} 
-		users =  (HashMap<String, User>) session.getAttribute(REGISTERED_USERS_SESSION);
+	
 		
 		
 		PrintWriter writer  = response.getWriter();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String type = request.getParameter("type");
-		if(type != null && !username.isEmpty() && !password.isEmpty() && !users.containsKey(username)){
-			users.put(username, new User(username, password, type));
+		m = (Model) getServletContext().getAttribute(helpers.ServletContext.MODEL_STRING);
+		if(type != null && !username.isEmpty() && !password.isEmpty() && !m.userNameExists(username)){
+			if(type.equals("huurder")){
+				m.addUser(new Huurder(username, password));
+			} else if(type.equals("verhuurder")){
+				m.addUser(new Verhuurder(username, password));
+			}
+			
+			
 		
 			response.sendRedirect("login.html");
 		} else {
-			writer.println("niet alle gegevens zijn ingevuld of de gebruikersnaam bestaat al");
+			writer.append("niet alle gegevens zijn ingevuld of de gebruikersnaam bestaat al");
 		}
 		doGet(request, response);
 	}

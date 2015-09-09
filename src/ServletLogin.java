@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import helpers.ServletContext;
+import model.Huurder;
+import model.Model;
 import model.User;
+import model.Verhuurder;
 
 /**
  * Servlet implementation class ServletLogin
@@ -19,6 +24,8 @@ import model.User;
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Model model;
+	public static final String INGELOGDE_USER = "ingelogdeUser";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,18 +47,21 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
 		PrintWriter w = response.getWriter();
-		HashMap<String, User> users = (HashMap<String, User>) session.getAttribute(ServletRegister.REGISTERED_USERS_SESSION);
+		model = (Model) getServletContext().getAttribute(ServletContext.MODEL_STRING);
 		String inputUserName = request.getParameter("username");
 		String inputPassword = request.getParameter("password");
-		User u = users.get(inputUserName);
+		User u = model.getUser(inputUserName);
 		if(u != null){
 			if(u.getPassword().equals(inputPassword)){
-				if(u.getType().equals(User.VERHUURDER_STRING)){
-					response.sendRedirect("addroom.html");
-				} else if(u.getType().equals(User.HUURDER_STRING)){
-					response.sendRedirect("huurder.html");
+				request.getSession().setAttribute(INGELOGDE_USER, u);
+				if(u instanceof Verhuurder){
+					
+					request.getRequestDispatcher("WEB-INF/addroom.html").forward(request, response);
+					
+					
+				} else if(u instanceof Huurder){
+					request.getRequestDispatcher("WEB-INF/huurder.html").forward(request, response);;
 				}
 			} else {
 				w.write("password incorect");
