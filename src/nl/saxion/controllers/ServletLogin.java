@@ -41,7 +41,7 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -68,10 +68,10 @@ public class ServletLogin extends HttpServlet {
 				
 				
 			} else {
-				w.write("password incorect");
+				w.write("<a href ='login.html'>password incorect, click here to try again</a>");
 			}
 		} else {
-			w.write("username not found");
+			w.write("<a href ='login.html'>username not found, click here to try again</a>");
 		}
 		
 		doGet(request, response);

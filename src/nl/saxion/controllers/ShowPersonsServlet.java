@@ -62,8 +62,8 @@ public class ShowPersonsServlet extends HttpServlet {
 			}
 		}
 		if(visitDateCookie != null && visitCountCookie != null){
-			visitDataHtml = "Visit count: "+ visitCountCookie.getValue()+", last visit date :"+
-					visitDateCookie.getValue()+"<br>";
+			visitDataHtml = "<p1>Visit count: "+ visitCountCookie.getValue()+", last visit date :"+
+					visitDateCookie.getValue()+"</p1> <br>";
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
@@ -76,8 +76,8 @@ public class ShowPersonsServlet extends HttpServlet {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 			visitDateCookie = new Cookie(VISIT_DATE, dateFormat.format(date));
-			visitDataHtml = "Visit count: "+ visitCountCookie.getValue()+", last visit date :"+
-					visitDateCookie.getValue()+"<br>";
+			visitDataHtml = "<p1>Visit count: "+ visitCountCookie.getValue()+", last visit date :"+
+					visitDateCookie.getValue()+"</p1> <br>";
 			}
 		visitCountCookie.setMaxAge(3000);
 		visitDateCookie.setMaxAge(3000);

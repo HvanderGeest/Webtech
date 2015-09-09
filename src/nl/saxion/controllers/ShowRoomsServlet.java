@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
 
 import jdk.nashorn.internal.ir.RuntimeNode.Request;
+import nl.saxion.model.Huurder;
 import nl.saxion.model.Kamer;
 import nl.saxion.model.Model;
 import nl.saxion.model.User;
+import nl.saxion.model.Verhuurder;
 import nl.saxion.views.Table;
 
 /**
@@ -40,13 +42,16 @@ public class ShowRoomsServlet extends HttpServlet {
 		Model model = (Model) request.getServletContext().getAttribute(nl.saxion.helpers.ServletContext.MODEL_STRING);
 		User ingelogdeUser = (User) request.getSession().getAttribute(ServletLogin.INGELOGDE_USER);
 		PrintWriter writer = response.getWriter();
-		if(ingelogdeUser == null){
+		if(ingelogdeUser == null || ingelogdeUser instanceof Huurder){
 			writer.write("U bent nog niet ingelogd, ga naar de inlog pagina om in te loggen");
+			writer.append("<br><a href = 'login.html'>klik hier om inteloggen</a>");
 			return;
 		}
 		
+		if(ingelogdeUser instanceof Verhuurder){
+			writer.write(Table.getRoomsFromVerhuurderTable(((Verhuurder) ingelogdeUser).getKamers()));
+		}
 		
-		writer.write(Table.getRoomsFromVerhuurderTable(model.getRoomsFromLandLord(ingelogdeUser)));
 		writer.append("<a href= 'addroom.html'>Klik here to add a room</a>");
 	}
 

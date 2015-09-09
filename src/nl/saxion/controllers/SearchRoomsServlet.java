@@ -14,6 +14,7 @@ import nl.saxion.helpers.ServletContext;
 import nl.saxion.model.Kamer;
 import nl.saxion.model.Model;
 import nl.saxion.model.User;
+import nl.saxion.model.Verhuurder;
 import nl.saxion.views.Table;
 
 /**
@@ -36,7 +37,7 @@ public class SearchRoomsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("<br><a href= 'login.html'>klik hier om in te loggen</a>");
 	}
 
 	/**
@@ -46,8 +47,10 @@ public class SearchRoomsServlet extends HttpServlet {
 		Model model = (Model) request.getServletContext().getAttribute(nl.saxion.helpers.ServletContext.MODEL_STRING);
 		User ingelogdeUser = (User) request.getSession().getAttribute(ServletLogin.INGELOGDE_USER);
 		PrintWriter writer = response.getWriter();
-		if(ingelogdeUser == null){
+		if(ingelogdeUser == null || ingelogdeUser instanceof Verhuurder){
 			writer.write("U bent nog niet ingelogd, ga naar de inlog pagina om in te loggen");
+			writer.append("<br><a href= 'login.html'>klik hier om in te loggen</a>");
+			request.getSession().invalidate();
 			return;
 		}
 		if(request.getParameter("surface").isEmpty() || request.getParameter("price").isEmpty() || request.getParameter("country").isEmpty()){
@@ -60,7 +63,7 @@ public class SearchRoomsServlet extends HttpServlet {
 		
 		
 		
-		writer.write(Table.getSearchRoomsTable(model.searchRooms(surface, price, place)));
+		writer.write(Table.getSearchRoomsTable(model.searchRooms(surface, price, place), model));
 		doGet(request, response);
 	}
 
