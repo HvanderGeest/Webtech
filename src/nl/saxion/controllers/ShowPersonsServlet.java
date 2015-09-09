@@ -62,7 +62,7 @@ public class ShowPersonsServlet extends HttpServlet {
 			}
 		}
 		if(visitDateCookie != null && visitCountCookie != null){
-			visitDataHtml = "<p1>Visit count: "+ visitCountCookie.getValue()+", last visit date :"+
+			visitDataHtml = "<!DOCTYPE html><p1>Visit count: "+ visitCountCookie.getValue()+", last visit date :"+
 					visitDateCookie.getValue()+"</p1> <br>";
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
