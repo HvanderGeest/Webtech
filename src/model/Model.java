@@ -30,5 +30,24 @@ public class Model {
 		}
 		return list;
 	}
+	
+	public List<Kamer> searchRooms(int minSurface, int maxPrice, String country){
+		List<Kamer> rooms = new ArrayList<>();
+		for(Kamer k : kamers){
+			if(k.getSurfaceInMeter() >= minSurface && k.getPriceInEuro() <= maxPrice && k.getPlace().equalsIgnoreCase(country)){
+				rooms.add(k);
+			}
+		}
+		return rooms;
+	}
+	
+	public void addRoom(int surface, int price, String place, User verhuurder){
+		kamers.add(new Kamer(surface, price, place, verhuurder));
+	}
+	
+	public List<User> getUsers(){
+		List<User> userList = new ArrayList<>(users.values());
+		return userList;
+	}
 
 }

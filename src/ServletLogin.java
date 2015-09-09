@@ -57,12 +57,15 @@ public class ServletLogin extends HttpServlet {
 				request.getSession().setAttribute(INGELOGDE_USER, u);
 				if(u instanceof Verhuurder){
 					
-					request.getRequestDispatcher("WEB-INF/addroom.html").forward(request, response);
+					request.getRequestDispatcher("addroom.html").forward(request, response);
 					
 					
 				} else if(u instanceof Huurder){
-					request.getRequestDispatcher("WEB-INF/huurder.html").forward(request, response);;
+					request.getRequestDispatcher("WEB-INF/huurder.html").forward(request, response);
 				}
+				
+				
+				
 			} else {
 				w.write("password incorect");
 			}

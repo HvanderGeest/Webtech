@@ -43,14 +43,14 @@ public class ShowRoomsServlet extends HttpServlet {
 			return;
 		}
 		
-		String html = "<TABLE BORDER='1'><TR> <TH>Surface (mm2)</TH> <TH>Price</TH> <TH>Place</TH> </TR>";
+		String html = "<h1>My Rooms</h1><br><TABLE BORDER='1'><TR> <TH>Surface (mm2)</TH> <TH>Price</TH> <TH>Place</TH> </TR>";
 		for(Kamer k : model.getRoomsFromLandLord(ingelogdeUser)){
 			String row = "<TR> <TD>"+k.getSurfaceInMeter()+"</TD> <TD>"+k.getPriceInEuro()+"</TD> <TD>"+k.getPlace()+"</TD> </TR>";
 			html+= row;
 		}
 		html+="</TABLE>";
 		writer.write(html);
-		writer.append("<a href='/WEB-INF/addroom.html'>Klik here to add a room</a>");
+		writer.append("<a href= 'addroom.html'>Klik here to add a room</a>");
 	}
 
 	/**
