@@ -25,6 +25,7 @@ public class Verhuurder extends User {
 	 * @param kamers the kamers to set
 	 */
 	public void addRoom(Kamer kamer) {
+		assert kamer != null : "kamer is een nullpointer";
 		kamers.add(kamer);
 	}
 	

@@ -8,20 +8,27 @@ public class Model {
 	private HashMap<String, User> users = new HashMap<>();
 
 	public User getUser(String userName) {
+		assert userName != null: "userName is een nullpointer";
+		assert !userName.isEmpty(): "userName is een lege string";
 		return users.get(userName);
 	}
 
 	public void addUser(User u) {
+		assert u != null : "u is een nullpointer";
 		users.put(u.getUsername(), u);
 	}
 
 	public boolean userNameExists(String userName) {
+		assert userName != null: "userName is een nullpointer";
+		assert !userName.isEmpty() : "userName is een lege String";
 		return users.containsKey(userName);
 	}
 
 	
 
 	public List<Kamer> searchRooms(int minSurface, int maxPrice, String country) {
+		assert country != null : "country is een nullpointer";
+		assert !country.isEmpty() : "country is een lege String";
 		List<Kamer> rooms = new ArrayList<>();
 		for (User u : users.values()) {
 			if (u instanceof Verhuurder) {
@@ -37,6 +44,9 @@ public class Model {
 	}
 
 	public void addRoom(int surface, int price, String place, User verhuurder) {
+		assert place != null: "place is een nullpointer";
+		assert !place.isEmpty() : "place is een lege String";
+		assert verhuurder != null : "verhuurder is een nullpointer";
 		((Verhuurder) verhuurder).addRoom(new Kamer(surface, price, place));
 	}
 
@@ -46,6 +56,7 @@ public class Model {
 	}
 
 	public User getLandlord(Kamer kamer) {
+		assert kamer != null : "kamer is een nullpointer";
 		for (User u : users.values()) {
 			if (u instanceof Verhuurder) {
 				if(((Verhuurder) u).hasRoom(kamer)){

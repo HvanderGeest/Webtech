@@ -6,6 +6,10 @@ public abstract class User {
 
 	
 	public User(String username, String password){
+		assert username != null: "username is een nullpointer";
+		assert password != null: "password is een nullpointer";
+		assert !username.isEmpty(): "username is leeg";
+		assert !password.isEmpty() : "password is leeg ";
 		this.username = username;
 		this.password = password;
 	}
